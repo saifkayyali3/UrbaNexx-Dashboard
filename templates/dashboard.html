@@ -4,11 +4,7 @@
 
 {% block content %}
 
-<form method="get" class="full-view-form">
-    <button type="submit" name="full_view" value="1" class="full-view-btn">
-        View Full Table & Graph
-    </button>
-</form>
+
 
 
 <form method="get" class="search-bar">
@@ -16,6 +12,12 @@
   <button type="submit" name="searched" value="1">
     <img src="{{ url_for('static', filename='images/search.png') }}" alt="Search button">
   </button>
+</form>
+
+<form method="get" class="full-view-form">
+    <button type="submit" name="full_view" value="1" class="full-view-btn">
+        View Full Table & Graph
+    </button>
 </form>
 
 {% if warning %}
@@ -27,6 +29,12 @@
     {% if plot %}
         <div class="plot-container">
             <h3>Population vs Area</h3>
+            <form method="post" action="{{ url_for('export_plot') }}">
+                    {% for row in tables %}
+                        <input type="hidden" name="cities" value="{{ row.City }}">
+                    {% endfor %}
+                    <button type="submit" class="export-btn">Download Plot as PNG</button>
+                </form>
             <div class="plot-wrapper">
                 <img src="data:image/png;base64,{{ plot }}" alt="Population vs Area Plot" class="plot">
             </div>
@@ -37,10 +45,13 @@
     {% if tables %}
     <div class="table-container">
         <h3>City Data Table</h3>
+        <form method="post" action="{{ url_for('export_csv') }}" id="export-form">
         <div class="table-wrapper">
+            <button type="submit" class="export-btn">Export Selected as CSV</button>
             <table>
                 <thead>
                     <tr>
+                        <th><input type="checkbox" id="select-all"></th>
                         <th>City</th>
                         <th>Country</th>
                         <th>Population</th>
@@ -52,6 +63,7 @@
                 <tbody>
                     {% for row in tables %}
                     <tr>
+                        <td><input type="checkbox" name="cities" value="{{ row.City }}"></td>
                         <td><a href="{{ url_for('city_view', city_name=row.City) }}">{{ row.City }}</a></td>
                         <td>{{ row.Country }}</td>
                         <td>{{ row.Population }}</td>
@@ -65,6 +77,7 @@
                 </tbody>
             </table>
         </div>
+        </form>
     </div>
     {% endif %}
 </div>
@@ -72,5 +85,13 @@
 {% if not plot and not tables and not warning and searched %}
   <p>No data available to display, search for a city to display data.</p>
 {% endif %}
+<script>
+const selectAll = document.getElementById('select-all');
+const checkboxes = document.querySelectorAll('input[name="cities"]');
+
+selectAll.addEventListener('change', () => {
+    checkboxes.forEach(cb => cb.checked = selectAll.checked);
+});
+</script>
 
 {% endblock %}

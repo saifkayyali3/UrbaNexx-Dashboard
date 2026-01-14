@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file, url_for, redirect
 import pandas as pd
 import io
 import base64
@@ -16,9 +16,15 @@ app = Flask(__name__)
 def dashboard():
     query = request.args.get("q", "").strip()
     full_view = request.args.get("full_view") == "1"  
+    export_error = request.args.get("export_error")
 
     warning = None
     filtered = pd.DataFrame()
+
+    if export_error == "no-selection-csv":
+        warning = "No cities selected for CSV export, select at least one."
+    elif export_error == "no-selection-plot":
+        warning = "No cities found for plot export, select at least one in database."
 
     if full_view:
         filtered = df.copy()
@@ -76,6 +82,54 @@ def population_area_plot(data):
     return base64.b64encode(img.read()).decode("utf-8")
 
 
+@app.route("/export_csv", methods=["POST"])
+def export_csv():
+    selected_cities = request.form.getlist("cities")
+    if not selected_cities:
+        return redirect(url_for("dashboard", export_error="no-selection-csv"))
+
+    filtered = df[df["City"].isin(selected_cities)]
+
+    csv_buffer = io.StringIO()
+    filtered.to_csv(csv_buffer, index=False)
+    csv_buffer.seek(0)
+
+    return send_file(io.BytesIO(csv_buffer.getvalue().encode()), mimetype="text/csv", as_attachment=True, download_name="selected_cities.csv")
+
+@app.route("/export_plot", methods=["POST"])
+def export_plot():
+    selected_cities = request.form.getlist("cities")
+    if not selected_cities:
+        return redirect(url_for("dashboard", export_error="no-selection-plot"))
+
+    filtered = df[df["City"].isin(selected_cities)]
+    if filtered.empty:
+        return redirect(url_for("dashboard", export_error="no-selection-plot"))
+
+    fig, ax = plt.subplots(figsize=(8,6))
+    colors = plt.cm.tab20.colors
+    for i, (_, row) in enumerate(filtered.iterrows()):
+        if pd.notna(row["Population"]) and pd.notna(row["Area_km2"]):
+            ax.scatter(
+                row["Area_km2"],
+                row["Population"],
+                label=row["City"],
+                color=colors[i % len(colors)],
+                alpha=0.8
+            )
+
+    ax.set_xlabel("Area (km²)")
+    ax.set_ylabel("Population")
+    ax.set_title("Population vs Area")
+    ax.grid(True, which="both", ls="--", lw=0.5)
+    ax.legend(fontsize="small", loc="best")
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png", bbox_inches="tight")
+    plt.close(fig)
+    buf.seek(0)
+
+    return send_file(buf,mimetype="image/png",as_attachment=True,download_name="population_area_plot.png")
 
 @app.route("/city/<city_name>")
 def city_view(city_name):
