@@ -54,7 +54,14 @@ def population_area_plot(data):
     plt.ylabel("Population")
     plt.grid(True, which="both", ls="--", lw=0.5)
     plt.title("Population vs Area")
-    plt.legend(fontsize="small", loc="center left", bbox_to_anchor=(1.2, 1))
+    plt.legend(
+        fontsize="small",
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.15),
+        ncol=min(len(plot_data), 4),  # wraps into multiple columns if many cities
+        frameon=False
+    )
+
 
     img = io.BytesIO()
     plt.savefig(img, format="png", bbox_inches="tight") 

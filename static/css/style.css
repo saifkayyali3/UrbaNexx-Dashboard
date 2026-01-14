@@ -11,22 +11,45 @@ header {
   text-align: center;
 }
 
+header h1 {
+  margin: 0;
+}
+
+header p {
+  margin: 0.2rem 0 0 0;
+  font-size: 0.95rem;
+}
+
 main {
   padding: 1.5rem;
 }
 
 .search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
 .search-bar input {
+  flex: 1 1 200px;
+  min-width: 120px;
   padding: 0.5rem;
-  width: 220px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .search-bar button {
+  flex: 0 0 auto;
   padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
   cursor: pointer;
+}
+
+.search-bar button:hover {
+  background: #f0f0f0;
 }
 
 .warning {
@@ -34,21 +57,40 @@ main {
   margin-bottom: 1rem;
 }
 
-.live {
-  color: green;
-  font-size: 0.8em;
-}
-
 .dense {
   font-weight: 600;
   color: #b00020;
 }
 
+.plot-container {
+  flex: 1 1 500px;
+  min-width: 300px;
+}
 
-.plot {
+.plot-container .plot {
+  width: 100%;
+  height: auto;
   max-width: 100%;
-  margin: 20px 0;
   border-radius: 6px;
+  margin: 20px 0;
+}
+
+.plot-wrapper {
+    overflow-x: auto;      
+    padding-bottom: 10px;  
+    -webkit-overflow-scrolling: touch; 
+}
+
+
+.table-container {
+  flex: 1 1 500px;
+  min-width: 300px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; 
+  margin-bottom: 1.5rem;
 }
 
 table {
@@ -61,35 +103,86 @@ th, td {
   padding: 0.6rem;
   border-bottom: 1px solid #ddd;
   text-align: left;
+  vertical-align: middle;
 }
 
 th {
+  position: sticky;
+  top: 0;
   background: #eee;
+  font-weight: 600;
+  z-index: 1;
 }
 
 table tbody tr:nth-child(even) {
   background: #fafafa;
 }
 
-th {
-  background: #eee;
-  font-weight: 600;
+.dashboard-content {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
-table td, table th {
-  vertical-align: middle;
+@media (max-width: 768px) {
+  .dashboard-content {
+    flex-direction: column;
+  }
+
+  .plot-container,
+  .table-container {
+    min-width: 100%;
+  }
+
+  .table-wrapper {
+    font-size: 0.85rem;
+  }
+
+  .search-bar input,
+  .search-bar button {
+    flex: 1 1 100%;
+  }
 }
 
-.search-bar input {
-  border: 1px solid #ccc;
-  border-radius: 4px;
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  header p {
+    font-size: 0.9rem;
+  }
+
+  table th, table td {
+    font-size: 0.8rem;
+    padding: 0.4rem;
+  }
+
+  .plot-container .plot {
+    max-height: 300px;
+  }
+
+  .search-bar input,
+  .search-bar button {
+    padding: 0.4rem;
+  }
 }
 
-.search-bar button {
-  border: 1px solid #ccc;
-  background: #fff;
-  border-radius: 4px;
-}
-.search-bar button:hover {
-  background: #f0f0f0;
+@media (max-width: 480px) {
+  .plot-container .plot {
+    max-height: 250px;
+    margin: 20px 0 30px 0;
+  }
+
+  .table-wrapper {
+    font-size: 0.75rem;
+  }
+
+  header h1 {
+    font-size: 1.3rem;
+  }
+
+  header p {
+    font-size: 0.85rem;
+  }
 }
