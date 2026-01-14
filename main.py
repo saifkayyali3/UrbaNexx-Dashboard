@@ -15,23 +15,28 @@ app = Flask(__name__)
 @app.route("/", methods=["GET"])
 def dashboard():
     query = request.args.get("q", "").strip()
+    full_view = request.args.get("full_view") == "1"  
 
     warning = None
     filtered = pd.DataFrame()
 
-    if query:
+    if full_view:
+        filtered = df.copy()
+    elif query:
         filtered = df[df["City"].str.lower().str.contains(query.lower())]
         if filtered.empty:
             warning = f"No data found for '{query}'."
     elif request.args.get("searched") == "1":
         warning = "Please enter a city name."
+
     plot = None
     if not filtered.empty:
         plot = population_area_plot(filtered)
 
     records = filtered.to_dict(orient="records")
 
-    return render_template("dashboard.html",tables=records,warning=warning,query=query,plot=plot)
+    return render_template("dashboard.html",tables=records,warning=warning,query=query,plot=plot,full_view=full_view)
+
 
 def population_area_plot(data):
     plot_data = data.dropna(subset=["Population", "Area_km2"])
