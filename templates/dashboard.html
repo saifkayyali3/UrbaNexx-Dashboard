@@ -29,11 +29,12 @@
     {% if plot %}
         <div class="plot-container">
             <h3>Population vs Area</h3>
-            <form method="post" action="{{ url_for('export_plot') }}">
+            <form method="post" action="{{ url_for('export_plot') }}" id="cityForm">
                     {% for row in tables %}
                         <input type="hidden" name="cities" value="{{ row.City }}">
                     {% endfor %}
                     <button type="submit" class="export-btn">Download Plot as PNG</button>
+                    <div id="plotError" class="export-error"></div>
                 </form>
             <div class="plot-wrapper">
                 <img src="data:image/png;base64,{{ plot }}" alt="Population vs Area Plot" class="plot">
@@ -45,9 +46,10 @@
     {% if tables %}
     <div class="table-container">
         <h3>City Data Table</h3>
-        <form method="post" action="{{ url_for('export_csv') }}" id="export-form">
+        <form method="post" action="{{ url_for('export_csv') }}" id="cityForm">
         <div class="table-wrapper">
             <button type="submit" class="export-btn">Export Selected as CSV</button>
+            <div id="csvError" class="export-error"></div>
             <table>
                 <thead>
                     <tr>
@@ -85,13 +87,10 @@
 {% if not plot and not tables and not warning and searched %}
   <p>No data available to display, search for a city to display data.</p>
 {% endif %}
-<script>
-const selectAll = document.getElementById('select-all');
-const checkboxes = document.querySelectorAll('input[name="cities"]');
 
-selectAll.addEventListener('change', () => {
-    checkboxes.forEach(cb => cb.checked = selectAll.checked);
-});
-</script>
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}" defer></script>
+{% endblock %}
+
 
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file, url_for, redirect, Response
+from flask import Flask, render_template, request, send_file, url_for, redirect, Response, jsonify
 import pandas as pd
 import io
 import base64
@@ -90,28 +90,31 @@ def population_area_plot(data):
 def export_csv():
     selected_cities = request.form.getlist("cities")
     if not selected_cities:
-        return redirect(url_for("dashboard", export_error="no-selection-csv"))
+        return jsonify({"error": "Select at least one city to export CSV."}), 400
 
     filtered = df[df["City"].isin(selected_cities)]
+    if filtered.empty:
+        return jsonify({"error": "No matching cities found."}), 400
 
     csv_buffer = io.StringIO()
     filtered.to_csv(csv_buffer, index=False)
     csv_buffer.seek(0)
 
-    return send_file(io.BytesIO(csv_buffer.getvalue().encode()), mimetype="text/csv", as_attachment=True, download_name="selected_cities.csv")
+    return send_file(io.BytesIO(csv_buffer.getvalue().encode()),mimetype="text/csv",as_attachment=True,download_name="selected_cities.csv")
 
 @app.route("/export_plot", methods=["POST"])
 def export_plot():
     selected_cities = request.form.getlist("cities")
     if not selected_cities:
-        return redirect(url_for("dashboard", export_error="no-selection-plot"))
+        return jsonify({"error": "Select at least one city to export plot."}), 400
 
     filtered = df[df["City"].isin(selected_cities)]
     if filtered.empty:
-        return redirect(url_for("dashboard", export_error="no-selection-plot"))
+        return jsonify({"error": "No valid city data to plot."}), 400
 
     fig, ax = plt.subplots(figsize=(8,6))
     colors = plt.cm.tab20.colors
+
     for i, (_, row) in enumerate(filtered.iterrows()):
         if pd.notna(row["Population"]) and pd.notna(row["Area_km2"]):
             ax.scatter(
@@ -125,8 +128,8 @@ def export_plot():
     ax.set_xlabel("Area (km²)")
     ax.set_ylabel("Population")
     ax.set_title("Population vs Area")
-    ax.grid(True, which="both", ls="--", lw=0.5)
-    ax.legend(fontsize="small", loc="best")
+    ax.grid(True)
+    ax.legend(fontsize="small")
 
     buf = io.BytesIO()
     plt.savefig(buf, format="png", bbox_inches="tight")

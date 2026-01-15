@@ -33,7 +33,7 @@ Proper attribution is required when using or modifying this data.
 
 ### 1. Clone this repository:
 ```bash
-   git clone https://github.com/yourusername/UrbaNexxDash.git
+   git clone https://github.com/saifkayyali3/UrbaNexxDash.git
    cd UrbaNexxDash
 ```
 ### 2. Make a virtual environment:

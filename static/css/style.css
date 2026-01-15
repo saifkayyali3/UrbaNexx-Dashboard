@@ -80,6 +80,12 @@ main {
     background: #333;
 }
 
+.export-error {
+    color: #c0392b;
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
 
 .warning {
   color: #b00020;
