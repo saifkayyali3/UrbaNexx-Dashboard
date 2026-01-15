@@ -131,6 +131,13 @@ def export_plot():
 
     return send_file(buf,mimetype="image/png",as_attachment=True,download_name="population_area_plot.png")
 
+from datetime import datetime
+
+@app.context_processor
+def inject_year():
+    return {"current_year": datetime.now().year}
+
+
 @app.route("/city/<city_name>")
 def city_view(city_name):
     city = df[df["City"].str.lower() == city_name.lower()]
