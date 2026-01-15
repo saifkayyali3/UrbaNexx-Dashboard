@@ -1,7 +1,11 @@
-from flask import Flask, render_template, request, send_file, url_for, redirect
+from flask import Flask, render_template, request, send_file, url_for, redirect, Response
 import pandas as pd
 import io
 import base64
+import xml.etree.ElementTree as ET
+import os
+import glob
+from urllib.parse import quote
 import matplotlib as mpl
 mpl.rcParams['axes.formatter.use_mathtext'] = True
 mpl.use("Agg")
@@ -137,6 +141,22 @@ from datetime import datetime
 def inject_year():
     return {"current_year": datetime.now().year}
 
+def get_latest_mod_time():
+    folders = ["templates", "static", "data"]
+    all_files = []
+
+    for folder in folders:
+        # Recursively get all files
+        all_files.extend(glob.glob(f"{folder}/**/*", recursive=True))
+
+    # Filter only actual files
+    all_files = [f for f in all_files if os.path.isfile(f)]
+    if not all_files:
+        return datetime.now().strftime("%Y-%m-%d")
+
+    latest_ts = max(os.path.getmtime(f) for f in all_files)
+    return datetime.fromtimestamp(latest_ts).strftime("%Y-%m-%d")
+
 
 @app.route("/city/<city_name>")
 def city_view(city_name):
@@ -145,6 +165,31 @@ def city_view(city_name):
         return "City not found", 404
 
     return render_template("city.html", city=city.iloc[0])
+
+@app.route("/sitemap.xml")
+def sitemap():
+    urlset = ET.Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
+    lastmod = get_latest_mod_time()
+
+    url = ET.SubElement(urlset, "url")
+    ET.SubElement(url, "loc").text = request.url_root.rstrip("/")
+    ET.SubElement(url, "lastmod").text = lastmod
+
+    for city in df["City"]:
+        city_slug = quote(city)  
+        city_url = ET.SubElement(urlset, "url")
+        ET.SubElement(city_url, "loc").text = f"{request.url_root}city/{city_slug}"
+        ET.SubElement(city_url, "lastmod").text = lastmod
+
+    xml_str = ET.tostring(urlset, encoding="utf-8", method="xml")
+    return Response(xml_str, mimetype="application/xml")
+
+@app.route("/robots.txt")
+def robots_txt():
+    return """User-agent: *
+Allow: /
+Sitemap: {}/sitemap.xml
+""".format(request.url_root.rstrip("/")), 200, {"Content-Type": "text/plain"}
 
 
 if __name__ == "__main__":
