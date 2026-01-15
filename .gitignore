@@ -27,4 +27,4 @@ data/backups/
 dist/
 build/
 *.spec
-.exe
+*.exe

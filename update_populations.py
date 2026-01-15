@@ -9,37 +9,40 @@ import glob
 import subprocess
 
 # Setup paths
-data_dir = "data"
-backup_dir = os.path.join(data_dir, "backups")
-logs_dir = "logs"
-os.makedirs(backup_dir, exist_ok=True)
-os.makedirs(logs_dir, exist_ok=True)
+BASE_DIR = r"C:\Users\USER\OneDrive\Desktop\UrbaNexxDash"
+DATA_DIR = os.path.join(BASE_DIR, "data")
+BACKUP_DIR = os.path.join(DATA_DIR, "backups")
+LOGS_DIR = os.path.join(BASE_DIR, "logs")
+
+os.makedirs(BACKUP_DIR, exist_ok=True)
+os.makedirs(LOGS_DIR, exist_ok=True)
 
 timestamp = datetime.now().strftime("%Y%m%d")
-csv_path = os.path.join(data_dir, "cities.csv")
-backup_path = os.path.join(backup_dir, f"cities_backup_{timestamp}.csv")
-log_path = os.path.join(logs_dir, f"update_{timestamp}.log")
+CSV_PATH = os.path.join(DATA_DIR, "cities.csv")
+BACKUP_PATH = os.path.join(BACKUP_DIR, f"cities_backup_{timestamp}.csv")
+LOG_PATH = os.path.join(LOGS_DIR, f"update_{timestamp}.log")
+
 
 # Logging setup
 import logging
-logging.basicConfig(filename=log_path, level=logging.INFO,
+logging.basicConfig(filename=LOG_PATH, level=logging.INFO,
                     format="%(asctime)s [%(levelname)s] %(message)s")
 logging.info("Starting monthly population update script.")
 
 # Backup with rolling limit of 5
-backup_files = sorted(glob.glob(os.path.join(backup_dir, "cities_backup_*.csv")))
+backup_files = sorted(glob.glob(os.path.join(BACKUP_DIR, "cities_backup_*.csv")))
 if len(backup_files) >= 5:
     oldest = backup_files[0]
     os.remove(oldest)
     logging.info(f"Deleted oldest backup: {oldest}")
 
-if os.path.exists(csv_path):
-    shutil.copy(csv_path, backup_path)
-    logging.info(f"Backup created at {backup_path}")
+if os.path.exists(CSV_PATH):
+    shutil.copy(CSV_PATH, BACKUP_PATH)
+    logging.info(f"Backup created at {BACKUP_PATH}")
 
 # Load data
-df = pd.read_csv(csv_path)
-iso_df = pd.read_csv(os.path.join(data_dir, "all.csv"))
+df = pd.read_csv(CSV_PATH)
+iso_df = pd.read_csv(os.path.join(DATA_DIR, "all.csv"))
 
 country_to_alpha2 = dict(zip(iso_df['name'], iso_df['alpha-2']))
 
@@ -122,16 +125,36 @@ columns_order = ["City", "Country", "Population", "Area_km2", "PopulationDensity
 df = df[columns_order]
 
 # Save updated CSV
-df.to_csv(csv_path, index=False)
+df.to_csv(CSV_PATH, index=False)
 logging.info("Population & density updated, unnecessary columns removed, and density column moved correctly.")
 
 # Git commit & push
-try:
-    subprocess.run(["git", "add", csv_path, backup_path], check=True)
-    subprocess.run(["git", "commit", "-m", f"Monthly population update {timestamp}"], check=True)
-    subprocess.run(["git", "push", "origin", "main"], check=True)
-    logging.info("Changes committed and pushed to git.")
-except Exception as e:
-    logging.warning(f"Git commit failed: {e}")
+def run_git(cmd):
+    return subprocess.run(
+        cmd,
+        cwd=BASE_DIR,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=True
+    )
 
-print("Update complete. See log for details:", log_path)
+try:
+    run_git(["git", "add", "-A"])
+
+    status = run_git(["git", "status", "--porcelain"])
+
+    if not status.stdout.strip():
+        logging.info("No changes detected. Skipping git commit.")
+    else:
+        run_git(["git", "commit", "-m", f"Monthly population update {timestamp}"])
+        run_git(["git", "push", "origin", "main"])
+        logging.info("Changes committed and pushed to git.")
+
+except subprocess.CalledProcessError as e:
+    logging.error("Git stdout:\n" + e.stdout)
+    logging.error("Git stderr:\n" + e.stderr)
+    logging.warning(f"Git operation failed: {e}")
+
+
+print("Update complete. See log for details:", LOG_PATH)
