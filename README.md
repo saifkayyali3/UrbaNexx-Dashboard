@@ -14,6 +14,11 @@ UrbaNexx is an interactive dashboard that provides an overview of cities worldwi
 
 ---
 
+## Live Demo:
+[UrbaNexx Dashboard](https://urbanexx-dashboard.vercel.app/)
+
+---
+
 ## Data Sources & Attribution
 
 City & Population Data: Some population data is fetched live via [GeoDB Cities API](https://rapidapi.com/wirefreethought/api/geodb-cities)
