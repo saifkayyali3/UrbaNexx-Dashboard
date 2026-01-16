@@ -29,7 +29,7 @@
     {% if plot %}
         <div class="plot-container">
             <h3>Population vs Area</h3>
-            <form method="post" action="{{ url_for('export_plot') }}" id="cityForm">
+            <form method="post" action="{{ url_for('export_plot') }}" id="plotForm">
                     {% for row in tables %}
                         <input type="hidden" name="cities" value="{{ row.City }}">
                     {% endfor %}
@@ -46,7 +46,7 @@
     {% if tables %}
     <div class="table-container">
         <h3>City Data Table</h3>
-        <form method="post" action="{{ url_for('export_csv') }}" id="cityForm">
+        <form method="post" action="{{ url_for('export_csv') }}" id="csvForm">
         <div class="table-wrapper">
             <button type="submit" class="export-btn">Export Selected as CSV</button>
             <div id="csvError" class="export-error"></div>

@@ -45,7 +45,7 @@ def dashboard():
 
     records = filtered.to_dict(orient="records")
 
-    return render_template("dashboard.html",tables=records,warning=warning,query=query,plot=plot,full_view=full_view)
+    return render_template("dashboard.html",tables=records,warning=warning,query=query,plot=plot,full_view=full_view,searched=request.args.get("searched") == "1")
 
 
 def population_area_plot(data):
