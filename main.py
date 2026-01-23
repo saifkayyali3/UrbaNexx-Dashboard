@@ -1,14 +1,11 @@
-from flask import Flask, render_template, request, send_file, Response, jsonify
+from flask import Flask, render_template, request, send_file, Response, jsonify 
 from datetime import datetime, timezone
-import pandas as pd
+import pandas as pd 
 import io
-import base64
 import xml.etree.ElementTree as ET
 from urllib.parse import quote
-import matplotlib as mpl
-mpl.rcParams['axes.formatter.use_mathtext'] = True
-mpl.use("Agg")
-import matplotlib.pyplot as plt
+import plotly.express as px 
+import plotly.io as pio 
 from urllib.parse import unquote
 
 
@@ -50,7 +47,6 @@ def dashboard():
     if request.headers.get("X-Requested-With") == "XMLHttpRequest":
         return jsonify({"warning": warning,"plot": plot,"tables": records})
 
-    # page render
     return render_template("dashboard.html",tables=records,warning=warning,query=query,plot=plot,full_view=full_view,searched=request.args.get("searched") == "1")
 
 
@@ -59,35 +55,13 @@ def population_area_plot(data):
     if plot_data.empty:
         return None
 
-    fig, ax = plt.subplots(figsize=(8, 6))
+    fig = px.scatter(plot_data,x="Area_km2",y="Population",color="City",hover_name="City",labels={"Area_km2":"Area (km²)","Population":"Population"},title="Population vs Area",color_discrete_sequence=px.colors.qualitative.Alphabet)
+    fig.update_traces(marker=dict(size=8, opacity=0.8))
+    fig.update_layout(autosize=True,margin=dict(l=40, r=20, t=50, b=40),legend=dict(font=dict(size=10),orientation="h",yanchor="bottom",y=-0.3))
+    plot_html = pio.to_html(fig,full_html=False,include_plotlyjs="cdn",config={"responsive": True})
 
+    return plot_html
 
-    n = len(plot_data)
-    colors = plt.cm.viridis([i / max(n-1, 1) for i in range(n)])
-
-    for i, (_, row) in enumerate(plot_data.iterrows()):
-        ax.scatter(row["Area_km2"],row["Population"],label=row["City"],color=colors[i],alpha=0.8)
-
-    ax.set_xlabel("Area (km²)")
-    ax.set_ylabel("Population")
-    ax.set_title("Population vs Area")
-    ax.grid(True, which="both", ls="--", lw=0.5)
-
-    # Legend outside the plot on the right
-    leg = ax.legend(fontsize="small",loc="center left",bbox_to_anchor=(1, 0.5),frameon=False, ncol=1)
-
-    # Rotate legend labels if needed
-    for text in leg.get_texts():
-        text.set_ha("left")
-
-    # Save figure to base64
-    img = io.BytesIO()
-    plt.tight_layout()
-    plt.savefig(img, format="png", bbox_inches="tight")
-    plt.close(fig)
-    img.seek(0)
-
-    return base64.b64encode(img.read()).decode("utf-8")
 
 
 @app.route("/export_csv", methods=["POST"])
@@ -116,28 +90,12 @@ def export_plot():
     if filtered.empty:
         return jsonify({"error": "No valid city data to plot."}), 400
 
-    fig, ax = plt.subplots(figsize=(8,6))
-    colors = plt.cm.tab20.colors
-
-    for i, (_, row) in enumerate(filtered.iterrows()):
-        if pd.notna(row["Population"]) and pd.notna(row["Area_km2"]):
-            ax.scatter(
-                row["Area_km2"],
-                row["Population"],
-                label=row["City"],
-                color=colors[i % len(colors)],
-                alpha=0.8
-            )
-
-    ax.set_xlabel("Area (km²)")
-    ax.set_ylabel("Population")
-    ax.set_title("Population vs Area")
-    ax.grid(True)
-    ax.legend(fontsize="small")
+    # Plotly scatter for export
+    fig = px.scatter(filtered,x="Area_km2",y="Population",color="City",hover_name="City",labels={"Area_km2": "Area (km²)", "Population": "Population"},color_discrete_sequence=px.colors.qualitative.Alphabet,width=1200,height=800,title="Population vs Area")
+    fig.update_traces(marker=dict(size=8, opacity=0.8))
 
     buf = io.BytesIO()
-    plt.savefig(buf, format="png", bbox_inches="tight")
-    plt.close(fig)
+    fig.write_image(buf, format="png", engine="kaleido")
     buf.seek(0)
 
     return send_file(buf,mimetype="image/png",as_attachment=True,download_name="population_area_plot.png")

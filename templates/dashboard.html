@@ -40,7 +40,7 @@
             </form>
             <div class="plot-wrapper-container">
                 <div class="plot-wrapper">
-                    <img src="data:image/png;base64,{{ plot }}" alt="Population vs Area Plot" class="plot">
+                    {{ plot | safe }}
                 </div>
             </div>
         </div>

@@ -15,7 +15,7 @@ UrbaNexx is an interactive dashboard that provides an overview of cities worldwi
 ---
 
 ## Live Demo:
-Check out the live site on: **[UrbaNexx Dashboard](https://urbanexx-dashboard.vercel.app/)**!
+Check out the live site on: **[UrbaNexx Dashboard](https://urbanexx-dashboard.vercel.app/)!**
 
 ---
 

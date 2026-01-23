@@ -102,14 +102,6 @@ main {
   min-width: 300px;
 }
 
-.plot-container .plot {
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  border-radius: 6px;
-  margin: 20px 0;
-}
-
 .plot-wrapper-container {
     max-height: 400px;  
     overflow-y: auto;
@@ -240,10 +232,6 @@ table tbody tr:nth-child(even) {
     padding: 0.4rem;
   }
 
-  .plot-container .plot {
-    max-height: 300px;
-  }
-
   .search-bar input,
   .search-bar button {
     padding: 0.4rem;
@@ -256,11 +244,6 @@ table tbody tr:nth-child(even) {
 }
 
 @media (max-width: 480px) {
-  .plot-container .plot {
-    max-height: 250px;
-    margin: 20px 0 30px 0;
-  }
-
   .table-wrapper {
     font-size: 0.75rem;
   }
