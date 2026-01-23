@@ -1,4 +1,5 @@
-# Updates Happen Monthly
+# Updates Happen Monthly Automatically
+# Need a GEODB_API_KEY to be able to run + 
 
 import pandas as pd
 import requests
@@ -7,9 +8,15 @@ import shutil
 from datetime import datetime
 import glob
 import subprocess
+import sys
 
 # Setup paths
-BASE_DIR = r"C:\Users\USER\OneDrive\Desktop\UrbaNexxDash"
+if getattr(sys, 'frozen', False):
+    # Running as compiled .exe
+    BASE_DIR = os.path.dirname(sys.executable)
+else:
+    # Running as .py file
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 BACKUP_DIR = os.path.join(DATA_DIR, "backups")
 LOGS_DIR = os.path.join(BASE_DIR, "logs")
@@ -25,8 +32,7 @@ LOG_PATH = os.path.join(LOGS_DIR, f"update_{timestamp}.log")
 
 # Logging setup
 import logging
-logging.basicConfig(filename=LOG_PATH, level=logging.INFO,
-                    format="%(asctime)s [%(levelname)s] %(message)s")
+logging.basicConfig(filename=LOG_PATH, level=logging.INFO,format="%(asctime)s [%(levelname)s] %(message)s")
 logging.info("Starting monthly population update script.")
 
 # Backup with rolling limit of 5
@@ -91,10 +97,7 @@ def fetch_population(city, country):
     if not code:
         return None
     url = "https://wft-geo-db.p.rapidapi.com/v1/geo/cities"
-    headers = {
-        "X-RapidAPI-Key": GEODB_KEY,
-        "X-RapidAPI-Host": "wft-geo-db.p.rapidapi.com"
-    }
+    headers = {"X-RapidAPI-Key": GEODB_KEY,"X-RapidAPI-Host": "wft-geo-db.p.rapidapi.com"}
     params = {"namePrefix": city, "countryIds": code, "limit": 1}
     try:
         r = requests.get(url, headers=headers, params=params, timeout=5)
@@ -112,12 +115,7 @@ def update_populations(row):
 
 # Update population & density
 df["Population"] = df.apply(update_populations, axis=1)
-df["PopulationDensity"] = df.apply(
-    lambda r: round(r["Population"] / r["Area_km2"], 2)
-    if pd.notna(r["Population"]) and pd.notna(r["Area_km2"]) and r["Area_km2"] > 0
-    else None,
-    axis=1
-)
+df["PopulationDensity"] = df.apply(lambda r: round(r["Population"] / r["Area_km2"], 2)if pd.notna(r["Population"]) and pd.notna(r["Area_km2"]) and r["Area_km2"] > 0 else None,axis=1)
 
 # Clean & reorder columns
 df = df.drop(columns=[col for col in ["Latitude", "Longitude"] if col in df.columns])
@@ -130,14 +128,7 @@ logging.info("Population & density updated, unnecessary columns removed, and den
 
 # Git commit & push
 def run_git(cmd):
-    return subprocess.run(
-        cmd,
-        cwd=BASE_DIR,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        check=True
-    )
+    return subprocess.run(cmd,cwd=BASE_DIR,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,check=True)
 
 try:
     run_git(["git", "add", "-A"])
@@ -158,3 +149,5 @@ except subprocess.CalledProcessError as e:
 
 
 print("Update complete. See log for details:", LOG_PATH)
+input("Press Enter to exit")
+sys.exit(0)

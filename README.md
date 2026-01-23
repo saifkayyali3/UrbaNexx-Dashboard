@@ -49,13 +49,7 @@ Proper attribution is required when using or modifying this data.
     pip install -r requirements.txt
 ```
 
-### 4. Set Your API Key as an environment variable:
-```bash
-    export GEODB_API_KEY="your_api_key_here"   # Linux/macOS
-    set GEODB_API_KEY="your_api_key_here"      # Windows
-```
-
-### 5. Run:
+### 4. Run:
 ```bash 
     python main.py
     # Open your browser at http://127.0.0.1:5000 to view the dashboard.
