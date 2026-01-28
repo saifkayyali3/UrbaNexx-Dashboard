@@ -131,6 +131,8 @@ def run_git(cmd):
     return subprocess.run(cmd,cwd=BASE_DIR,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,check=True)
 
 try:
+    run_git(["git", "pull"])
+
     run_git(["git", "add", "-A"])
 
     status = run_git(["git", "status", "--porcelain"])
@@ -148,6 +150,5 @@ except subprocess.CalledProcessError as e:
     logging.warning(f"Git operation failed: {e}")
 
 
-print("Update complete. See log for details:", LOG_PATH)
-input("Press Enter to exit")
+logging.info("Update Complete.")
 sys.exit(0)
