@@ -35,6 +35,18 @@ import logging
 logging.basicConfig(filename=LOG_PATH, level=logging.INFO,format="%(asctime)s [%(levelname)s] %(message)s")
 logging.info("Starting monthly population update script.")
 
+def run_git(cmd):
+    return subprocess.run(cmd,cwd=BASE_DIR,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,check=True)
+
+try:
+    logging.info("Pulling latest changes before update.")
+    run_git(["git", "pull","--rebase", "origin", "main"])
+except subprocess.CalledProcessError as e:
+    logging.error("Git pull failed.")
+    logging.error(e.stderr)
+    sys.exit(1)
+
+
 # Backup with rolling limit of 5
 backup_files = sorted(glob.glob(os.path.join(BACKUP_DIR, "cities_backup_*.csv")))
 if len(backup_files) >= 5:
@@ -126,13 +138,7 @@ df = df[columns_order]
 df.to_csv(CSV_PATH, index=False)
 logging.info("Population & density updated, unnecessary columns removed, and density column moved correctly.")
 
-# Git commit & push
-def run_git(cmd):
-    return subprocess.run(cmd,cwd=BASE_DIR,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,check=True)
-
 try:
-    run_git(["git", "pull"])
-
     run_git(["git", "add", "-A"])
 
     status = run_git(["git", "status", "--porcelain"])
