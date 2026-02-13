@@ -10,12 +10,13 @@ import glob
 import subprocess
 import sys
 
-# Setup paths
+""" Setup paths """
+
+# Running as compiled .exe
 if getattr(sys, 'frozen', False):
-    # Running as compiled .exe
     BASE_DIR = os.path.dirname(sys.executable)
+# Running as .py file
 else:
-    # Running as .py file
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 BACKUP_DIR = os.path.join(DATA_DIR, "backups")
@@ -28,7 +29,6 @@ timestamp = datetime.now().strftime("%Y%m%d")
 CSV_PATH = os.path.join(DATA_DIR, "cities.csv")
 BACKUP_PATH = os.path.join(BACKUP_DIR, f"cities_backup_{timestamp}.csv")
 LOG_PATH = os.path.join(LOGS_DIR, f"update_{timestamp}.log")
-
 
 # Logging setup
 import logging
@@ -45,7 +45,6 @@ except subprocess.CalledProcessError as e:
     logging.error("Git pull failed.")
     logging.error(e.stderr)
     sys.exit(1)
-
 
 # Backup with rolling limit of 5
 backup_files = sorted(glob.glob(os.path.join(BACKUP_DIR, "cities_backup_*.csv")))
@@ -154,7 +153,6 @@ except subprocess.CalledProcessError as e:
     logging.error("Git stdout:\n" + e.stdout)
     logging.error("Git stderr:\n" + e.stderr)
     logging.warning(f"Git operation failed: {e}")
-
 
 logging.info("Update Complete.")
 sys.exit(0)
