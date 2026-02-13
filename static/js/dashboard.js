@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!form) return;
 
         form.addEventListener("submit", async (e) => {
-            e.preventDefault(); // stop page reload
+            e.preventDefault();
             errorBox.textContent = "";
 
             const formData = new FormData(form);
@@ -60,44 +60,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchError = document.getElementById("searchError");
 
     if (searchForm) {
-        searchForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            searchError.textContent = "";
+        searchForm.addEventListener("submit", (e) => {
+            const query = searchForm.querySelector("input[name='q']").value.trim();
 
-            const formData = new FormData(searchForm);
-            const params = new URLSearchParams(formData);
-
-            try {
-                const res = await fetch("/?" + params.toString(), {headers: { "X-Requested-With": "XMLHttpRequest" }});
-
-                const data = await res.json();
-
-                if (data.warning) {
-                    searchError.textContent = data.warning;
-                } else {
-                    // Clear error
-                    searchError.textContent = "";
-
-                    // Update table
-                    const tbody = document.querySelector("table tbody");
-                    if (tbody) {
-                        tbody.innerHTML = "";
-                        data.tables.forEach(row => {
-                            const tr = document.createElement("tr");
-                            tr.innerHTML = `<td><input type="checkbox" name="cities" value="${row.City}"></td><td><a href="/city/${encodeURIComponent(row.City)}">${row.City}</a></td><td>${row.Country}</td><td>${row.Population}</td><td>${row.Area_km2}</td><td class="${row.PopulationDensity && row.PopulationDensity > 10000 ? "dense" : ""}">${row.PopulationDensity || "—"}</td><td>${row.Average_Temp_C}</td>`;
-                            tbody.appendChild(tr);
-                        });
-                    }
-                }
-
-            } catch {
-                searchError.textContent = "Unexpected error. Please try again.";
+            if (!query) {
+                e.preventDefault();
+                searchError.textContent = "Please enter a city name.";
+                return;
             }
+
+            searchError.textContent = "";
         });
+
         searchForm.querySelector("input[name='q']").addEventListener("input", () => {
             searchError.textContent = "";
         });
-
     }
-
 });

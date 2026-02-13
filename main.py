@@ -37,8 +37,6 @@ def dashboard():
 
     return render_template("dashboard.html",tables=records,warning=warning,query=query,full_view=full_view,searched=request.args.get("searched") == "1")
 
-
-
 @app.route("/export_csv", methods=["POST"])
 def export_csv():
     selected_cities = request.form.getlist("cities")
@@ -62,7 +60,6 @@ def inject_year():
 def get_latest_mod_time():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
-
 @app.route("/city/<path:city_name>")
 def city_view(city_name):
     city_name = unquote(city_name).strip().lower()
@@ -72,7 +69,6 @@ def city_view(city_name):
         return render_template("404.html", message=f"City '{city_name.title()}' not found."), 404
 
     return render_template("city.html", city=city.iloc[0])
-
 
 @app.errorhandler(404)
 def page_not_found(e):

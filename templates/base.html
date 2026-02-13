@@ -1,68 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>{% block title %}UrbaNexx{% endblock %}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="UrbaNexx Dev Team">
-  <meta name="description" content="UrbaNexx - Global City Data Dashboard: Explore population, area, density, and climate statistics for cities worldwide, accepting live data updates and contributions.">
-  <meta name="google-site-verification" content="9CFF2hHOkAER-r2te3p3Vhx6zA2YaOnGzuvKdowu51E" />
-  <meta name="keywords" content="Urban Data, City Statistics, Population Data, Area Data, Population Density, Climate Data, City Dashboard, Global Cities, Urban Analytics, City Data Visualization">
-  <meta name="cannonical" content="https://urbanexx-dashboard.vercel.app/">
-  <meta property="og:title" content="UrbaNexx - Global City Data Dashboard">
-  <meta property="og:description" content="Explore population, area, population density, and climate statistics for cities worldwide, accepting live data updates and contributions.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://urbanexx-dashboard.vercel.app/">
-  <meta property="og:image" content="https://urbanexx-dashboard.vercel.app/static/images/icon.png">
-  <meta property="og:site_name" content="UrbaNexx">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="UrbaNexx - Global City Data Dashboard">
-  <meta name="twitter:description" content="Explore population, area, density, and climate statistics for cities worldwide, accepting live data updates and contributions.">
-  <meta name="twitter:image" content="https://urbanexx-dashboard.vercel.app/static/images/icon.png">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icon.png') }}">
-  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="City Weather Identifier">
-  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/iconx192.png') }}">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}UrbaNexx{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="UrbaNexx Dev Team">
+    <meta name="description" content="UrbaNexx - Global City Data Dashboard: Explore population, area, density, and climate statistics for cities worldwide, accepting live data updates and contributions.">
+    <meta name="google-site-verification" content="9CFF2hHOkAER-r2te3p3Vhx6zA2YaOnGzuvKdowu51E" />
+    <meta name="keywords" content="Urban Data, City Statistics, Population Data, Area Data, Population Density, Climate Data, City Dashboard, Global Cities, Urban Analytics, City Data Visualization">
+    <meta name="cannonical" content="https://urbanexx-dashboard.vercel.app/">
+    <meta property="og:title" content="UrbaNexx - Global City Data Dashboard">
+    <meta property="og:description" content="Explore population, area, population density, and climate statistics for cities worldwide, accepting live data updates and contributions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://urbanexx-dashboard.vercel.app/">
+    <meta property="og:image" content="https://urbanexx-dashboard.vercel.app/static/images/icon.png">
+    <meta property="og:site_name" content="UrbaNexx">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="UrbaNexx - Global City Data Dashboard">
+    <meta name="twitter:description" content="Explore population, area, density, and climate statistics for cities worldwide, accepting live data updates and contributions.">
+    <meta name="twitter:image" content="https://urbanexx-dashboard.vercel.app/static/images/icon.png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icon.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="City Weather Identifier">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/iconx192.png') }}">
+  </head>
+  <body>
 
-  <header>
-    <h1>UrbaNexx</h1>
-    <br>
-    <img src="{{ url_for('static', filename='images/icon.png') }}" alt="UrbaNexx Logo" class="logo">
-    <p>Global City Data Dashboard</p>
-  </header>
+    <header>
+      <h1>UrbaNexx</h1>
+      <br>
+      <img src="{{ url_for('static', filename='images/icon.png') }}" alt="UrbaNexx Logo" class="logo">
+      <p>Global City Data Dashboard</p>
+    </header>
 
-  <main>
-    {% block content %}{% endblock %}
-  </main>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
 
-   <footer class="site-footer">
-        <div class="footer-left">
-            <small>© {{ current_year }} UrbaNexx</small>
-        </div>
+    <footer class="site-footer">
+          <div class="footer-left">
+              <small>© {{ current_year }} UrbaNexx</small>
+          </div>
 
-        <div class="footer-right">
-            <span>Want to help improve this project?</span>
-            <a href="https://github.com/Skayyali3/UrbaNexx-Dashboard"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="github-link">
+         <div class="footer-right">
+              <span>Want to help improve this project?</span>
+             <a href="https://github.com/Skayyali3/UrbaNexx-Dashboard"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="github-link">
 
-                <svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true">
+                 <svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M12 0.3a12 12 0 00-3.8 23.4c.6.1.8-.2.8-.5v-1.9c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.9 1.3 3.6 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.4-1.3-5.4-5.8 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 016 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.2 0 4.5-2.8 5.5-5.4 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5A12 12 0 0012 .3z"/>
-                </svg>
+                 </svg>
 
                 Contribute on GitHub
-            </a>
-        </div>
+              </a>
+          </div>
 
-    </footer>
+      </footer>
 
-    {% block scripts %}{% endblock %}
-</body>
+      {% block scripts %}{% endblock %}
+  </body>
 </html>
