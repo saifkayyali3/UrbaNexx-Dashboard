@@ -14,7 +14,7 @@ UrbaNexx is an interactive dashboard that provides an overview of cities worldwi
 ---
 
 ## Live Demo:
-Check out the live site on: **[UrbaNexx Dashboard](https://urbanexx-dashboard.vercel.app/)!**
+Check out the live site on: **[UrbaNexx Dashboard](https://urbanexx-dashboard.vercel.app/)**
 
 ---
 
@@ -66,13 +66,13 @@ Contributions are welcome!
 
 2. Make your changes (if it is a new city data submission, please make sure it isn't already present before adding).
 
-3. Submit a pull request for review (if a new city data submission, country-reorder.py must be ran before submitting the pull request to ensure organization of data).
+3. Submit a pull request for review (if a new city data submission, [Country Reorderer](country-reorder.py) must be ran before submitting the pull request to ensure organization of data).
 
 All new city data submissions are fact-checked before being accepted.
 
 ---
 
-## LICENSE:
+## Licensing:
 
 This project is under the MIT License - check the [LICENSE](LICENSE) file for more details.
 
