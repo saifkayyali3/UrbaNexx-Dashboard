@@ -116,7 +116,6 @@ Catania,Italy,311620,180.9,1722.61,17
 Firenze,Italy,382258,102.4,3732.99,14
 Glasgow,UK,635640,175.5,3621.88,9
 Durban,South Africa,595061,225.0,2644.72,20
-Addis Ababa,Ethiopia,3041000,527.0,5770.4,19
 Pretoria,South Africa,741651,687.0,1079.55,16
 Medellin,Colombia,2529400,382.0,6621.47,22
 Qingdao,China,9400000,11282.0,833.19,14
@@ -148,3 +147,54 @@ Aqaba,Jordan,150000,375.0,400.0,22
 Yantai,China,7000000,13500.0,518.52,14
 Zibo,China,4500000,5800.0,775.86,13
 Xiamen,China,4000000,1699.0,2354.33,22
+Thessaloniki,Greece,800000,19.0,42105.26,17
+Patras,Greece,200000,125.0,1600.0,18
+Krakow,Poland,780000,327.0,2385.32,9
+Wroclaw,Poland,640000,293.0,2184.64,10
+Lodz,Poland,690000,293.0,2354.95,9
+Gdansk,Poland,470000,262.0,1793.89,11
+Surabaya,Indonesia,2900000,350.0,8285.71,27
+Bandung,Indonesia,2400000,167.0,14371.26,24
+Semarang,Indonesia,1700000,373.0,4555.77,27
+Makassar,Indonesia,1600000,199.0,8040.2,27
+Yogyakarta,Indonesia,400000,32.0,12500.0,27
+Denpasar,Indonesia,900000,125.0,7200.0,27
+Begawan,Brunei,100000,100.0,1000.0,27
+Tbilisi,Georgia,1100000,720.0,1527.78,14
+Baku,Azerbaijan,2200000,213.0,10329.58,15
+Yazd,Iran,500000,100.0,5000.0,20
+Shiraz,Iran,1500000,240.0,6250.0,17
+Isfahan,Iran,2000000,550.0,3636.36,15
+Kismanyo,Somalia,500000,91.0,5494.51,28
+Mogadishu,Somalia,1500000,91.0,16483.52,28
+Dushanbe,Tajikistan,800000,124.0,6451.61,12
+Khujand,Tajikistan,200000,124.0,1612.9,12
+Ashgabat,Turkmenistan,1000000,700.0,1428.57,15
+Mary,Turkmenistan,150000,700.0,214.29,15
+Chelyabinsk,Russia,1200000,530.0,2264.15,5
+Omsk,Russia,1170000,600.0,1950.0,4
+Novosibirsk,Russia,1500000,500.0,3000.0,5
+Khovd,Mongolia,100000,200.0,500.0,10
+Erbil,Iraq,800000,1000.0,800.0,22
+Manama,Bahrain,1500000,780.0,1923.08,28
+Los Angeles,USA,3980000,1302.0,3059.14,18
+Kansas City,USA,500000,826.0,605.82,13
+Almaty,Kazakhstan,2000000,682.0,2934.31,10
+Astana,Kazakhstan,1000000,810.0,1234.57,10
+Basel,Switzerland,200000,23.0,8695.65,9
+Geneva,Switzerland,200000,16.0,12500.0,9
+Dudelange,Luxembourg,20000,7.0,2857.14,10
+Luxembourg City,Luxembourg,120000,51.0,2352.94,10
+Cahul,Moldova,100000,50.0,2000.0,12
+Chisinau,Moldova,700000,123.0,5691.06,11
+Tiraspol,Moldova,150000,50.0,3000.0,12
+Gomel,Belarus,500000,150.0,3333.33,7
+Minsk,Belarus,2000000,350.0,5714.29,7
+Vitebsk,Belarus,300000,150.0,2000.0,7
+Kaunus,Lithuania,300000,157.0,1910.83,8
+Vilnius,Lithuania,500000,401.0,1246.88,8
+Riga,Latvia,600000,300.0,2000.0,7
+Akureyri,Iceland,20000,39.0,512.82,5
+Reykjavik,Iceland,130000,273.0,475.82,6
+Bucharest,Romania,1800000,228.0,7894.74,11
+Cluj-Napoca,Romania,300000,179.0,1675.42,10
