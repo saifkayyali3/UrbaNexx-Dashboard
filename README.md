@@ -20,9 +20,11 @@ Check out the live site on: **[UrbaNexx Dashboard](https://urbanexx-dashboard.ve
 
 ## Data Sources & Attribution
 
-City & Population Data: Some population data is fetched live via [GeoDB Cities API](https://rapidapi.com/wirefreethought/api/geodb-cities)
+City & Population Data: Population data is fetched and updated live via [GeoDB Cities API](https://rapidapi.com/wirefreethought/api/geodb-cities) as the script updating population data is built to run every month insha'Allaj
 
 Country Codes: Derived from [Luke’s ISO-3166 Countries with Regional Codes](https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes/tree/master/all) (`all.csv`), licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). 
+
+Temperature Data: Fetched from [Openmeteo API](https://open-meteo.com/), built to update yearly
 
 Proper attribution is required when using or modifying this data.
 
