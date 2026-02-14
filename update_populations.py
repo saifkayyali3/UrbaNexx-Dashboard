@@ -6,6 +6,7 @@ import requests
 import os
 import shutil
 from datetime import datetime
+import time
 import glob
 import subprocess
 import sys
@@ -120,22 +121,25 @@ def fetch_population(city, country):
         return None
 
 def update_populations(row):
-    if pd.notna(row.get("Population")):
-        return row["Population"]
-    return fetch_population(row["City"], row["Country"])
+    new_pop = fetch_population(row["City"], row["Country"])
+    
+    if new_pop is not None:
+        return new_pop
+    
+    return row.get("Population")
 
-# Update population & density
-df["Population"] = df.apply(update_populations, axis=1)
+def delay_update(row):
+    val = update_populations(row)
+    time.sleep(1.1)
+    return val
+
+df["Population"] = df.apply(delay_update, axis=1)
+
 df["PopulationDensity"] = df.apply(lambda r: round(r["Population"] / r["Area_km2"], 2)if pd.notna(r["Population"]) and pd.notna(r["Area_km2"]) and r["Area_km2"] > 0 else None,axis=1)
-
-# Clean & reorder columns
-df = df.drop(columns=[col for col in ["Latitude", "Longitude"] if col in df.columns])
-columns_order = ["City", "Country", "Population", "Area_km2", "PopulationDensity", "Average_Temp_C"]
-df = df[columns_order]
 
 # Save updated CSV
 df.to_csv(CSV_PATH, index=False)
-logging.info("Population & density updated, unnecessary columns removed, and density column moved correctly.")
+logging.info("Population & density updated.")
 
 try:
     run_git(["git", "add", "-A"])
