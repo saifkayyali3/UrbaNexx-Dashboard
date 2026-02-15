@@ -63,10 +63,11 @@ def get_yearly_avg_celsius(city, country):
         lon = geo_res['results'][0]['longitude']
 
         archive_url = (
-            f"https://archive-api.open-meteo.com?"
+            f"https://archive-api.open-meteo.com/v1/archive?"
             f"latitude={lat}&longitude={lon}&start_date={start_date}&end_date={end_date}"
             f"&daily=temperature_2m_mean&timezone=auto"
         )
+
         data = requests.get(archive_url).json()
         
         if 'daily' in data and 'temperature_2m_mean' in data['daily']:

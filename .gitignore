@@ -18,10 +18,13 @@ desktop.ini
 # Logs
 *.log
 logs/
+logs-temp/
 
-# Data files
-data/cities_backup_*.csv
+# Backups
 data/backups/
+data/backups-temp/
+data/cities_backup_*.csv
+data/backup_*.csv
 
 # Pyinstaller
 dist/
