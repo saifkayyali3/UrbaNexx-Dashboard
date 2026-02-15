@@ -114,7 +114,8 @@ def fetch_population(city, country):
     try:
         r = requests.get(url, headers=headers, params=params, timeout=5)
         data = r.json()
-        if data["data"]:
+        # Check if data key exists and isn't an empty list
+        if "data" in data and data["data"]:
             return data["data"][0].get("population")
     except Exception as e:
         logging.warning(f"Failed to fetch population for {city}, {country}: {e}")
