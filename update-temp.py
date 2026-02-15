@@ -43,7 +43,7 @@ if os.path.exists(CSV_PATH):
 def get_yearly_avg_celsius(city, country):
     try:
         geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={city},{country}&count=1&language=en&format=json"
-        geo_res = requests.get(geo_url).json()
+        geo_res = requests.get(geo_url, timeout=10).json()
         
         if 'results' not in geo_res:
             logging.warning(f"Skipping {city}: Not found.")
@@ -58,7 +58,9 @@ def get_yearly_avg_celsius(city, country):
             f"&daily=temperature_2m_mean&timezone=auto"
         )
 
-        data = requests.get(archive_url).json()
+        response = requests.get(archive_url, timeout=15)
+        response.raise_for_status()
+        data = response.json()
         
         if 'daily' in data and 'temperature_2m_mean' in data['daily']:
             daily_temps = data['daily']['temperature_2m_mean']
@@ -67,13 +69,19 @@ def get_yearly_avg_celsius(city, country):
             if valid_temps:
                 return int(round(sum(valid_temps) / len(valid_temps)))
         return None
+    except requests.exceptions.Timeout:
+        logging.error(f"Timeout reached for {city}. Skipping.")
+        return None
     except Exception as e:
         logging.error(f"Error for {city}: {e}")
         return None
 
 if os.path.exists(CSV_PATH):
     df = pd.read_csv(CSV_PATH)
+    total=len(df)
     for index, row in df.iterrows():
+        print(f"[{index+1}/{total}] Processing {row['City']}, {row['Country']}...", flush=True)
+
         logging.info(f"Processing {row['City']}...")
         new_val = get_yearly_avg_celsius(row['City'], row['Country'])
         if new_val is not None:

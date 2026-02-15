@@ -95,13 +95,16 @@ def fetch_population(city, country):
     if not code:
         return None
     url = "https://wft-geo-db.p.rapidapi.com/v1/geo/cities"
-    headers = {"X-RapidAPI-Key": GEODB_KEY,"X-RapidAPI-Host": "wft-geo-db.p.rapidapi.com"}
+    headers = {"X-RapidAPI-Key": GEODB_KEY, "X-RapidAPI-Host": "wft-geo-db.p.rapidapi.com"}
     params = {"namePrefix": city, "countryIds": code, "limit": 1}
     try:
-        r = requests.get(url, headers=headers, params=params, timeout=5)
+        r = requests.get(url, headers=headers, params=params, timeout=10)
+        if r.status_code != 200:
+            logging.warning(f"API Error {r.status_code} for {city}")
+            return None
+            
         data = r.json()
-        # Check if data key exists and isn't an empty list
-        if "data" in data and data["data"]:
+        if isinstance(data, dict) and "data" in data and data["data"]:
             return data["data"][0].get("population")
     except Exception as e:
         logging.warning(f"Failed to fetch population for {city}, {country}: {e}")
@@ -115,18 +118,30 @@ def update_populations(row):
     
     return row.get("Population")
 
-def delay_update(row):
-    val = update_populations(row)
-    time.sleep(1.1)
-    return val
+def update_logic(row, index, total):
+    print(f"[{index+1}/{total}] Processing {row['City']}, {row['Country']}...", flush=True)
+    
+    new_pop = fetch_population(row["City"], row["Country"])
+    time.sleep(1.2) 
+    
+    if new_pop is not None:
+        return new_pop
+    return row.get("Population")
 
-df["Population"] = df.apply(delay_update, axis=1)
+if os.path.exists(CSV_PATH):
+    df = pd.read_csv(CSV_PATH)
+    total_rows = len(df)
 
-df["PopulationDensity"] = df.apply(lambda r: round(r["Population"] / r["Area_km2"], 2)if pd.notna(r["Population"]) and pd.notna(r["Area_km2"]) and r["Area_km2"] > 0 else None,axis=1)
+    new_populations = []
+    for i, row in df.iterrows():
+        new_populations.append(update_logic(row, i, total_rows))
+    
+    df["Population"] = new_populations
 
-# Save updated CSV
-df.to_csv(CSV_PATH, index=False)
-logging.info("Population & density updated.")
+    df["PopulationDensity"] = df.apply(lambda r: round(r["Population"] / r["Area_km2"], 2) if pd.notna(r["Population"]) and r["Area_km2"] > 0 else None, axis=1)
+
+    df.to_csv(CSV_PATH, index=False)
+    logging.info("Population & density updated.")
 
 logging.info("Monthly Population Update Complete.")
 sys.exit(0)
