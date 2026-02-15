@@ -9,13 +9,14 @@ from datetime import datetime
 import time
 import glob
 import sys
+import logging
 
 """ Setup paths """
-
 if getattr(sys, 'frozen', False):
     BASE_DIR = os.path.dirname(sys.executable)
 else:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 DATA_DIR = os.path.join(BASE_DIR, "data")
 BACKUP_DIR = os.path.join(DATA_DIR, "backups")
 LOGS_DIR = os.path.join(BASE_DIR, "logs")
@@ -29,16 +30,14 @@ BACKUP_PATH = os.path.join(BACKUP_DIR, f"cities_backup_{timestamp}.csv")
 LOG_PATH = os.path.join(LOGS_DIR, f"update_{timestamp}.log")
 
 # Logging setup
-import logging
-logging.basicConfig(filename=LOG_PATH, level=logging.INFO,format="%(asctime)s [%(levelname)s] %(message)s")
+logging.basicConfig(filename=LOG_PATH, level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logging.info("Starting monthly population update script.")
 
 # Backup with rolling limit of 5
 backup_files = sorted(glob.glob(os.path.join(BACKUP_DIR, "cities_backup_*.csv")))
-if len(backup_files) >= 5:
-    oldest = backup_files[0]
-    os.remove(oldest)
-    logging.info(f"Deleted oldest backup: {oldest}")
+while len(backup_files) >= 5:
+    os.remove(backup_files.pop(0))
+    logging.info(f"Deleted oldest backup.")
 
 if os.path.exists(CSV_PATH):
     shutil.copy(CSV_PATH, BACKUP_PATH)
@@ -75,14 +74,14 @@ country_to_alpha2.update({
     "Nederland": "NL", "Polska": "PL", "Česká republika": "CZ",
     "Magyarország": "HU", "Österreich": "AT", "Schweiz": "CH",
     "Schweizerische Eidgenossenschaft": "CH", "Suisse": "CH", "Danmark": "DK",
-    "Norge": "NO", "Ísland": "IS", "Ελλάδα": "GR", "ประเทศไทย": "TH",
+    "Norge": "NO", "Ísland": "IS", "ประเทศไทย": "TH",
     "المملكة العربية السعودية": "SA", "الإمارات العربية المتحدة": "AE",
     "대한민국": "KR", "中华人民共和国": "CN", "Российская Федерация": "RU",
     "الأردن": "JO", "لبنان": "LB", "مصر": "EG", "اليمن": "YE",
     "العراق": "IQ", "سوريا": "SY", "فلسطين": "PS","تونس": "TN", "المغرب": "MA",
     "الجزائر": "DZ", "ليبيا": "LY", "السودان": "SD", "Somaliland": "SO", "جمهورية السودان": "SD","جمهورية مصر العربية": "EG",
     "جمهورية العراق": "IQ", "جمهورية تونس": "TN", "المملكة المغربية": "MA", "جمهورية الجزائر": "DZ", "دولة ليبيا": "LY",
-    "جمهورية الصومال": "SO","جمهورية اليمن": "YE","دولة الإمارات العربية المتحدة": "AE","المملكة العربية السعودية": "SA","دولة الكويت": "KW",
+    "جمهورية الصومال": "SO","جمهورية اليمن": "YE","دولة الإمارات العربية المتحدة": "AE","دولة الكويت": "KW",
     "دولة قطر": "QA","سلطنة عمان": "OM","دولة البحرين": "BH","جمهورية لبنان": "LB","المملكة الأردنية الهاشمية": "JO",
     "دولة فلسطين": "PS","المملكة الأردنية ": "JO", 
 })
@@ -110,19 +109,11 @@ def fetch_population(city, country):
         logging.warning(f"Failed to fetch population for {city}, {country}: {e}")
         return None
 
-def update_populations(row):
-    new_pop = fetch_population(row["City"], row["Country"])
-    
-    if new_pop is not None:
-        return new_pop
-    
-    return row.get("Population")
-
 def update_logic(row, index, total):
     print(f"[{index+1}/{total}] Processing {row['City']}, {row['Country']}...", flush=True)
     
     new_pop = fetch_population(row["City"], row["Country"])
-    time.sleep(1.2) 
+    time.sleep(1.2)
     
     if new_pop is not None:
         return new_pop

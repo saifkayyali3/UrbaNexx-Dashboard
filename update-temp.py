@@ -45,7 +45,7 @@ def get_yearly_avg_celsius(city, country):
         geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={city},{country}&count=1&language=en&format=json"
         geo_res = requests.get(geo_url, timeout=10).json()
         
-        if 'results' not in geo_res:
+        if 'results' not in geo_res or not geo_res['results']:
             logging.warning(f"Skipping {city}: Not found.")
             return None
         
@@ -78,17 +78,15 @@ def get_yearly_avg_celsius(city, country):
 
 if os.path.exists(CSV_PATH):
     df = pd.read_csv(CSV_PATH)
-    total=len(df)
+    total = len(df)
     for index, row in df.iterrows():
         print(f"[{index+1}/{total}] Processing {row['City']}, {row['Country']}...", flush=True)
-
+        
         logging.info(f"Processing {row['City']}...")
         new_val = get_yearly_avg_celsius(row['City'], row['Country'])
         if new_val is not None:
             df.at[index, 'Average_Temp_C'] = new_val
         time.sleep(1)
 
-    df.to_csv(CSV_PATH, index=False)
-    logging.info("CSV updated.")
 
 logging.info("Yearly Temperature update completed.")
