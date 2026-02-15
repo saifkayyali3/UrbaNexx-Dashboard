@@ -31,7 +31,7 @@ jobs:
       - name: Run Population Update Script
         env:
           GEODB_API_KEY: ${{ secrets.GEODB_API_KEY }}
-        run: python update_populations.py
+        run: python -u update_populations.py
 
       - name: Commit and Push changes
         uses: stefanzweifel/git-auto-commit-action@v5
