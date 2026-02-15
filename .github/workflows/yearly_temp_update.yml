@@ -16,7 +16,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Fetches all history for full git operations
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -30,7 +30,13 @@ jobs:
 
       - name: Run Temperature Update Script
         run: python update-temp.py
-        
+
+      - name: Commit and Push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Yearly temperature update for previous year"
+          file_pattern: 'data/cities.csv'
+
       - name: Upload Logs as Artifacts
         if: always()
         uses: actions/upload-artifact@v4
