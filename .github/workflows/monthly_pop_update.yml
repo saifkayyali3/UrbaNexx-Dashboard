@@ -4,7 +4,6 @@ on:
   schedule:
     - cron: '0 0 15 * *'
   workflow_dispatch:
-    
 
 jobs:
   update-pop:
@@ -34,6 +33,12 @@ jobs:
           GEODB_API_KEY: ${{ secrets.GEODB_API_KEY }}
         run: python update_populations.py
 
+      - name: Commit and Push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Monthly population update"
+          file_pattern: 'data/cities.csv'
+
       - name: Upload Logs as Artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -41,3 +46,11 @@ jobs:
           name: population-update-logs
           path: logs/
           retention-days: 30
+
+      - name: Upload Backup as Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cities-csv-backup-${{ github.run_id }}
+          path: data/backups/
+          retention-days: 90
