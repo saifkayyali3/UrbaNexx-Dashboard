@@ -1,4 +1,4 @@
-City,Country,Population,Area_km2,PopulationDensity,Average_Temp_C
+﻿City,Country,Population,Area_km2,PopulationDensity,Average_Temp_C
 Buenos Aires,Argentina,3121707,203.0,15377.87,17
 Yerevan,Armenia,1106300,223.0,4960.99,11
 Melbourne,Australia,149615,9992.0,14.97,15
@@ -15,22 +15,22 @@ Begawan,Brunei,50000,100.0,500.0,27
 Toronto,Canada,0,630.0,0.0,9
 Montreal,Canada,1800055,431.5,4171.62,6
 Santiago,Chile,6257516,641.0,9762.12,15
-Changsha,China,10047914,11819.0,850.15,17
-Chongqing,China,32054159,82403.0,388.99,18
-Kunming,China,8460088,21400.0,395.33,15
-Shenyang,China,9070093,12969.0,699.37,10
-Qingdao,China,10071722,11282.0,892.72,14
-Lanzhou,China,4359446,13000.0,335.34,12
-Xian,China,0,9983.0,0.0,13
-Wuhan,China,12326518,8569.0,1438.5,17
-Nanjing,China,9314685,6597.0,1411.96,15
-Hangzhou,China,11936010,16853.0,708.24,17
-Beijing,China,21893095,16410.54,1334.09,13
-Yantai,China,7102116,13500.0,526.08,14
-Zibo,China,4704138,5800.0,811.06,13
-Xiamen,China,5163970,1699.0,3039.42,22
-Dalian,China,7450785,12580.0,592.27,12
 Chengdu,China,20937757,14335.0,1460.6,16
+Dalian,China,7450785,12580.0,592.27,12
+Xiamen,China,5163970,1699.0,3039.42,22
+Zibo,China,4704138,5800.0,811.06,13
+Yantai,China,7102116,13500.0,526.08,14
+Beijing,China,21893095,16410.54,1334.09,13
+Hangzhou,China,11936010,16853.0,708.24,17
+Nanjing,China,9314685,6597.0,1411.96,15
+Xian,China,0,9983.0,0.0,13
+Lanzhou,China,4359446,13000.0,335.34,12
+Qingdao,China,10071722,11282.0,892.72,14
+Shenyang,China,9070093,12969.0,699.37,10
+Kunming,China,8460088,21400.0,395.33,15
+Chongqing,China,32054159,82403.0,388.99,18
+Changsha,China,10047914,11819.0,850.15,17
+Wuhan,China,12326518,8569.0,1438.5,17
 Medellin,Colombia,2529403,382.0,6621.47,22
 Bogotá,Colombia,14041,1775.0,7.91,14
 Zagreb,Croatia,767131,641.0,1196.77,12
@@ -58,14 +58,14 @@ Budapest,Hungary,57459,525.2,109.4,11
 Akureyri,Iceland,20050,39.0,514.1,5
 Reykjavik,Iceland,138772,273.0,508.32,6
 Mumbai,India,15414288,603.0,25562.67,27
-Semarang,Indonesia,0,373.0,0.0,27
-Medan,Indonesia,2246142,265.0,8476.01,27
-Makassar,Indonesia,1338663,199.0,6726.95,27
-Yogyakarta,Indonesia,422732,32.0,13210.38,27
-Bandung,Indonesia,3657701,167.0,21902.4,24
-Surabaya,Indonesia,20781,350.0,59.37,27
-Denpasar,Indonesia,670210,125.0,5361.68,27
 Jakarta,Indonesia,914283,661.0,1383.18,27
+Denpasar,Indonesia,670210,125.0,5361.68,27
+Surabaya,Indonesia,20781,350.0,59.37,27
+Bandung,Indonesia,3657701,167.0,21902.4,24
+Yogyakarta,Indonesia,422732,32.0,13210.38,27
+Makassar,Indonesia,1338663,199.0,6726.95,27
+Medan,Indonesia,2246142,265.0,8476.01,27
+Semarang,Indonesia,0,373.0,0.0,27
 Shiraz,Iran,2288,240.0,9.53,17
 Isfahan,Iran,1961260,550.0,3565.93,15
 Kermanshah,Iran,946651,200.0,4733.26,15
@@ -74,22 +74,23 @@ Tabriz,Iran,1558693,237.0,6576.76,11
 Mashhad,Iran,193,328.0,0.59,16
 Yazd,Iran,0,100.0,0.0,20
 Qom,Iran,1201158,300.0,4003.86,18
-Erbil,Iraq,846000,1000.0,846.0,22
 Baghdad,Iraq,8126755,673.0,12075.42,23
-Firenze,Italy,110,102.4,1.07,14
-Catania,Italy,31,180.9,0.17,17
-Naples,Italy,3107006,117.3,26487.69,16
-Sicily,Italy,5000000,25711.0,194.47,16
-Rome,Italy,14,1285.0,0.01,16
+Erbil,Iraq,846000,1000.0,846.0,22
+Mosul,Iraq,0,91.0,0.0,22
 Milan,Italy,25,181.8,0.14,13
-Tokyo,Japan,14264798,2191.0,6510.63,16
-Nagoya,Japan,2326844,326.43,7128.16,15
-Yokohama,Japan,3757630,437.38,8591.23,16
-Kobe,Japan,1521707,552.0,2756.72,16
-Nagano,Japan,367184,1040.0,353.06,11
-Fukuoka,Japan,1603043,343.0,4673.59,17
+Rome,Italy,14,1285.0,0.01,16
+Firenze,Italy,110,102.4,1.07,14
+Naples,Italy,3107006,117.3,26487.69,16
+Catania,Italy,31,180.9,0.17,17
+Sicily,Italy,5000000,25711.0,194.47,16
 Sapporo,Japan,1959313,1121.0,1747.83,8
+Nagano,Japan,367184,1040.0,353.06,11
 Musashino,Japan,148971,10.9,13667.06,15
+Yokohama,Japan,3757630,437.38,8591.23,16
+Nagoya,Japan,2326844,326.43,7128.16,15
+Tokyo,Japan,14264798,2191.0,6510.63,16
+Kobe,Japan,1521707,552.0,2756.72,16
+Fukuoka,Japan,1603043,343.0,4673.59,17
 Aqaba,Jordan,140000,375.0,373.33,22
 Ma'an,Jordan,30046,7.0,4292.29,18
 Amman,Jordan,4007526,1680.0,2385.43,20
@@ -98,17 +99,19 @@ Astana,Kazakhstan,1239744,810.0,1530.55,10
 Nairobi,Kenya,5545000,696.0,7966.95,19
 Vientiane,Laos,1003004,64.0,15671.94,25
 Riga,Latvia,595053,300.0,1983.51,7
+Tripoli,Lebanon,1550000,27.0,57407.41,20
+Tripoli,Libya,1200000,400.0,3000.0,22
 Kaunus,Lithuania,300000,157.0,1910.83,8
 Vilnius,Lithuania,581475,401.0,1450.06,8
 Dudelange,Luxembourg,21953,7.0,3136.14,10
 Luxembourg City,Luxembourg,120000,51.0,2352.94,10
 Kuala Lumpur,Malaysia,9000280,243.0,37038.19,27
 Mexico City,Mexico,9209944,1485.0,6201.98,18
+Cahul,Moldova,22223,50.0,444.46,12
 Chisinau,Moldova,567038,123.0,4610.07,11
 Tiraspol,Moldova,1488,50.0,29.76,12
-Cahul,Moldova,22223,50.0,444.46,12
-Ulaanbaatar,Mongolia,1515593,470.0,3224.67,12
 Khovd,Mongolia,26023,200.0,130.12,10
+Ulaanbaatar,Mongolia,1515593,470.0,3224.67,12
 Casablanca,Morocco,3215935,220.0,14617.89,18
 Bagan,Myanmar,300,100.0,3.0,28
 Auckland,New Zealand,1470100,1086.0,1353.68,15
@@ -118,37 +121,32 @@ Abuja,Nigeria,1693400,713.0,2375.04,25
 Oslo,Norway,61756,454.0,136.03,6
 Muscat,Oman,1421409,3500.0,406.12,28
 Karachi,Pakistan,14910352,591.0,25229.02,27
-Al Quds,Palestine,500000,125.0,4000.0,20
-Yaffa,Palestine,400000,28.0,14285.71,22
-Gaza,Palestine,600000,45.0,13333.33,22
-Nablus,Palestine,150000,28.0,5357.14,20
-Al-Quds,Palestine,500000,125.0,4000.0,20
 Lima,Peru,9943800,2672.0,3721.48,19
 Manila,Philippines,1902590,42.88,44370.1,27
-Warsaw,Poland,1862402,517.0,3602.32,9
 Gdansk,Poland,487834,262.0,1861.96,11
 Krakow,Poland,804237,327.0,2459.44,9
 Wroclaw,Poland,640000,293.0,2184.3,10
 Lodz,Poland,690000,293.0,2354.95,9
+Warsaw,Poland,1862402,517.0,3602.32,9
 Lisbon,Portugal,545796,100.05,5455.23,16
 Doha,Qatar,1186023,132.0,8985.02,30
-Cluj-Napoca,Romania,286598,179.0,1601.11,10
 Bucharest,Romania,1716961,228.0,7530.53,11
+Cluj-Napoca,Romania,286598,179.0,1601.11,10
 Moscow,Russia,13274285,2561.0,5183.24,5
 Novosibirsk,Russia,1637266,500.0,3274.53,5
-Omsk,Russia,1101367,600.0,1835.61,4
 Chelyabinsk,Russia,1176770,530.0,2220.32,5
-Abha,Saudi Arabia,334290,150.0,2228.6,20
+Omsk,Russia,1101367,600.0,1835.61,4
 Medina,Saudi Arabia,1411599,589.0,2396.6,25
 Riyadh,Saudi Arabia,7009100,1919.0,3652.48,26
+Abha,Saudi Arabia,334290,150.0,2228.6,20
 Singapore,Singapore,5866139,728.6,8051.25,27
 Ljubljana,Slovenia,284293,163.8,1735.61,11
 Kismanyo,Somalia,500000,91.0,5494.51,28
 Mogadishu,Somalia,2120000,91.0,23296.7,28
-Johannesburg,South Africa,4949347,334.0,14818.4,17
-Cape Town,South Africa,3776313,400.0,9440.78,17
 Pretoria,South Africa,741651,687.0,1079.55,16
+Cape Town,South Africa,3776313,400.0,9440.78,17
 Durban,South Africa,595061,225.0,2644.72,20
+Johannesburg,South Africa,4949347,334.0,14818.4,17
 Changwon,South Korea,1050000,747.0,1405.62,14
 Seoul,South Korea,9776000,605.0,16158.68,13
 Madrid,Spain,20500,604.3,33.92,15
@@ -157,6 +155,8 @@ Stockholm,Sweden,998782,188.0,5312.67,8
 Zurich,Switzerland,448664,91.88,4883.15,9
 Geneva,Switzerland,206635,16.0,12914.69,9
 Basel,Switzerland,176329,23.0,7666.48,9
+Damascus,Syria,1710000,105.0,16285.71,19
+Latakia,Syria,0,60.0,0.0,20
 Khujand,Tajikistan,198700,124.0,1602.42,12
 Dushanbe,Tajikistan,1201800,124.0,9691.94,12
 Zanzibar City,Tanzania,709809,15.0,47320.6,26
@@ -165,35 +165,35 @@ Lome,Togo,2188376,90.0,24315.29,27
 Istanbul,Turkey,15462452,5461.0,2831.43,14
 Mary,Turkmenistan,126141,700.0,180.2,15
 Ashgabat,Turkmenistan,1030063,700.0,1471.52,15
-Dubai,UAE,3331420,4114.0,809.78,28
 Abu Dhabi,UAE,1480000,9720.0,152.26,28
-Glasgow,UK,635640,175.5,3621.88,9
-London,UK,10847,1572.0,6.9,11
-Birmingham,UK,1137100,267.8,4246.08,11
+Dubai,UAE,3331420,4114.0,809.78,28
 Liverpool,UK,513441,111.8,4592.5,10
 Manchester,UK,547627,115.6,4737.26,11
 Edinburgh,UK,524930,264.0,1988.37,9
-Houston,USA,0,1651.1,0.0,20
-New York,USA,183000,783.8,233.48,12
-Chandler,USA,3693,181.1,20.39,20
-Yuma,USA,1898,312.1,6.08,22
-Westminster,USA,20126,77.7,259.02,12
-Sunnyvale,USA,7893,73.5,107.39,15
-Redmond,USA,33274,44.3,751.11,11
-Overland Park,USA,197238,156.2,1262.73,12
-Naperville,USA,149540,102.5,1458.93,10
-Irvine,USA,0,290.5,0.0,17
+London,UK,10847,1572.0,6.9,11
+Glasgow,UK,635640,175.5,3621.88,9
+Birmingham,UK,1137100,267.8,4246.08,11
+Kansas City,USA,0,826.0,0.0,13
+Dallas,USA,0,881.9,0.0,20
+San Diego,USA,0,964.5,0.0,18
+San Antonio,USA,0,1194.0,0.0,20
+San Jose,USA,0,469.7,0.0,15
+Phoenix,USA,1708,1340.6,1.27,22
+Los Angeles,USA,85000,1302.0,65.28,18
+Buffalo,USA,3290,136.0,24.19,10
 Chicago,USA,2746388,606.1,4531.25,11
 Fargo,USA,125990,126.1,999.13,7
+Irvine,USA,0,290.5,0.0,17
+Naperville,USA,149540,102.5,1458.93,10
+Redmond,USA,33274,44.3,751.11,11
+Sunnyvale,USA,7893,73.5,107.39,15
+Westminster,USA,20126,77.7,259.02,12
+Yuma,USA,1898,312.1,6.08,22
+Chandler,USA,3693,181.1,20.39,20
+New York,USA,183000,783.8,233.48,12
+Houston,USA,0,1651.1,0.0,20
 Addison,USA,16661,16.4,1015.91,12
-Buffalo,USA,3290,136.0,24.19,10
-Kansas City,USA,0,826.0,0.0,13
-Los Angeles,USA,85000,1302.0,65.28,18
-Phoenix,USA,1708,1340.6,1.27,22
-San Jose,USA,0,469.7,0.0,15
-San Antonio,USA,0,1194.0,0.0,20
-San Diego,USA,0,964.5,0.0,18
-Dallas,USA,0,881.9,0.0,20
+Overland Park,USA,197238,156.2,1262.73,12
 Kampala,Uganda,1797722,189.0,9511.76,20
 Caracas,Venezuela,1943901,433.0,4489.38,25
 Hanoi,Vietnam,8000000,3358.0,2382.37,24
