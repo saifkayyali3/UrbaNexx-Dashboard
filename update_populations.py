@@ -8,15 +8,12 @@ import shutil
 from datetime import datetime
 import time
 import glob
-import subprocess
 import sys
 
 """ Setup paths """
 
-# Running as compiled .exe
 if getattr(sys, 'frozen', False):
     BASE_DIR = os.path.dirname(sys.executable)
-# Running as .py file
 else:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
@@ -35,17 +32,6 @@ LOG_PATH = os.path.join(LOGS_DIR, f"update_{timestamp}.log")
 import logging
 logging.basicConfig(filename=LOG_PATH, level=logging.INFO,format="%(asctime)s [%(levelname)s] %(message)s")
 logging.info("Starting monthly population update script.")
-
-def run_git(cmd):
-    return subprocess.run(cmd,cwd=BASE_DIR,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,check=True)
-
-try:
-    logging.info("Pulling latest changes before update.")
-    run_git(["git", "pull","--rebase", "origin", "main"])
-except subprocess.CalledProcessError as e:
-    logging.error("Git pull failed.")
-    logging.error(e.stderr)
-    sys.exit(1)
 
 # Backup with rolling limit of 5
 backup_files = sorted(glob.glob(os.path.join(BACKUP_DIR, "cities_backup_*.csv")))
@@ -142,22 +128,5 @@ df["PopulationDensity"] = df.apply(lambda r: round(r["Population"] / r["Area_km2
 df.to_csv(CSV_PATH, index=False)
 logging.info("Population & density updated.")
 
-try:
-    run_git(["git", "add", "-A"])
-
-    status = run_git(["git", "status", "--porcelain"])
-
-    if not status.stdout.strip():
-        logging.info("No changes detected. Skipping git commit.")
-    else:
-        run_git(["git", "commit", "-m", f"Monthly population update {timestamp}"])
-        run_git(["git", "push", "origin", "main"])
-        logging.info("Changes committed and pushed to git.")
-
-except subprocess.CalledProcessError as e:
-    logging.error("Git stdout:\n" + e.stdout)
-    logging.error("Git stderr:\n" + e.stderr)
-    logging.warning(f"Git operation failed: {e}")
-
-logging.info("Update Complete.")
+logging.info("Monthly Population Update Complete.")
 sys.exit(0)

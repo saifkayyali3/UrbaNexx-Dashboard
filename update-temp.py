@@ -5,7 +5,6 @@ import shutil
 from datetime import datetime
 import time
 import glob
-import subprocess
 import sys
 import logging
 
@@ -33,15 +32,6 @@ LOG_PATH = os.path.join(LOGS_DIR, f"update_{timestamp}.log")
 
 logging.basicConfig(filename=LOG_PATH, level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logging.info(f"Starting yearly temperature update for {last_year}.")
-
-def run_git(cmd):
-    return subprocess.run(cmd, cwd=BASE_DIR, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
-
-try:
-    logging.info("Pulling latest changes.")
-    run_git(["git", "pull", "--rebase", "origin", "main"])
-except Exception as e:
-    logging.error(f"Git pull failed: {e}")
 
 backup_files = sorted(glob.glob(os.path.join(BACKUP_DIR, "backup_*.csv")))
 while len(backup_files) >= 5:
@@ -91,16 +81,6 @@ if os.path.exists(CSV_PATH):
         time.sleep(1)
 
     df.to_csv(CSV_PATH, index=False)
-    logging.info("CSV updated locally.")
+    logging.info("CSV updated.")
 
-try:
-    run_git(["git", "add", CSV_PATH])
-    status = run_git(["git", "status", "--porcelain"])
-    if status.stdout.strip():
-        run_git(["git", "commit", "-m", f"Yearly temp update for {last_year}"])
-        run_git(["git", "push", "origin", "main"])
-        logging.info("Changes pushed to Git.")
-    else:
-        logging.info("No data changes detected to commit.")
-except Exception as e:
-    logging.error(f"Git operation failed: {e}")
+logging.info("Yearly Temperature update completed.")
